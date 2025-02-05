@@ -1,0 +1,23 @@
+listen:
+  host: "0.0.0.0"
+  port: 8080
+  protocol: "http"
+
+load_balance:
+  algorithms: "round_robin"
+  servers:
+    - host: "192.168.1.10"
+      port: 5000
+      weight: 1
+    - host: "192.168.1.11"
+      port: 5000
+      weight: 2
+    - host: "192.168.1.12"
+      port: 5000
+      weight: 1
+
+health_check:
+  interval: -5    # Invalid interval
+  timeout: 0      # Invalid timeout
+  path: "health"  # Does not start with '/'
+  # retries: 3     # Optional: Can be omitted
