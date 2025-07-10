@@ -3,7 +3,7 @@ import os
 from typing import List, Optional
 from pydantic import Field, BaseModel, field_validator, ValidationError, PrivateAttr
 
-from async_flow.enums import ProtocolType, AlgorithmType
+from src.async_flow.enums import ProtocolType, AlgorithmType
 
 
 class Listen(BaseModel):

@@ -3,12 +3,13 @@ from typing import Dict, Callable, Coroutine, Any
 
 import aiohttp
 from aiohttp import web
-from async_flow.logger import get_logger
-from async_flow.health import HealthCheck
-from async_flow.models.config import LoadBalancerConfig
-from async_flow.server_pool import ServerPool
 
-from src.async_flow.algorithms.base_algorithm import AlgorithmFactory, AlgorithmContext
+from src.async_flow.algorithms.alg_strategy import AlgorithmContext, AlgorithmFactory
+from src.async_flow.logger import get_logger
+from src.async_flow.health import HealthCheck
+from src.async_flow.models.config import LoadBalancerConfig
+from src.async_flow.server_pool import ServerPool
+
 
 
 class LoadBalancer:

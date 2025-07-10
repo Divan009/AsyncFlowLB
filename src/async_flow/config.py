@@ -5,7 +5,7 @@ import toml
 import json
 from pydantic import ValidationError
 
-from async_flow.models.config import LoadBalancerConfig
+from src.async_flow.models.config import LoadBalancerConfig
 
 
 class Config:

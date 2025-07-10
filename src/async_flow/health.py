@@ -4,13 +4,13 @@ from typing import Optional, Protocol
 
 import aiohttp
 
-from async_flow.enums import ProtocolType
-from async_flow.models.config import HealthCheck as HealthCheckConfig
-from async_flow.protocols.base import ProtocolStrategy
-from async_flow.protocols.http import HttpHealthCheckStrategy
-from async_flow.protocols.tcp import TcpHealthCheckStrategy
+from src.async_flow.enums import ProtocolType
+from src.async_flow.models.config import HealthCheck as HealthCheckConfig
+from src.async_flow.protocols.base import ProtocolStrategy
+from src.async_flow.protocols.http import HttpHealthCheckStrategy
+from src.async_flow.protocols.tcp import TcpHealthCheckStrategy
 
-from async_flow.server_pool import ServerPool
+from src.async_flow.server_pool import ServerPool
 
 
 class HealthCheckProtocolStrategyFactory:
