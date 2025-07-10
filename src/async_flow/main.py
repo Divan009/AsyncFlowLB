@@ -1,10 +1,9 @@
 import asyncio
 import sys
 
-from async_flow.core import LoadBalancer
-from async_flow.logger import setup_logging
-
-from async_flow.config import Config
+from src.async_flow.logger import setup_logging
+from src.async_flow.core import LoadBalancer
+from src.async_flow.config import Config
 
 
 def main():
