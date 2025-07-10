@@ -29,6 +29,7 @@
 ### 2. Once your servers are started, run
 
 `
-python -m stealth_paws.main --config examples/config.yaml --type yaml
+uv run --env-file .env python -m async_flow.main --config examples/config.yaml --type yaml
 `
 
+In .env, I am setting PYTHONPATH=src
