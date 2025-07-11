@@ -9,7 +9,7 @@ class ServerPool:
     def get_all_servers(self):
         return self.servers
 
-    def get_servers(self):
+    def get_healthy_servers(self):
         return [s for s in self.servers if s.healthy]
 
     async def mark_unhealthy(self, server) -> bool:

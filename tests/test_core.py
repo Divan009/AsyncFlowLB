@@ -93,7 +93,7 @@ async def test_load_balancer_start_tcp(load_balancer, mock_health_check, mock_co
 
 @pytest.mark.asyncio
 async def test_load_balancer_unsupported_protocol(load_balancer, mock_config):
-    """Test that the LoadBalancer handles unsupported protocols."""
+    """Test that the LoadBalancer handles unsupported protocol_health_check."""
     # Set an unsupported protocol
     mock_config.listen.protocol = "udp"
 

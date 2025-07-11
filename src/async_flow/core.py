@@ -11,7 +11,6 @@ from src.async_flow.models.config import LoadBalancerConfig
 from src.async_flow.server_pool import ServerPool
 
 
-
 class LoadBalancer:
     def __init__(self, config: LoadBalancerConfig):
         self.config = config
@@ -59,7 +58,7 @@ class LoadBalancer:
             self.logger.error("No healthy servers available to handle the request.")
             return web.Response(status=503, text="Service Unavailable")
 
-        selected_server = self.algorithm_context.execute(server_list=healthy_servers)
+        selected_server = await self.algorithm_context.execute(server_list=healthy_servers)
         self.logger.info(f"Forwarding HTTP request to: {selected_server['host']}:{selected_server['port']}")
 
         # Construct the target URL
@@ -82,7 +81,9 @@ class LoadBalancer:
         except Exception as e:
             self.logger.error(f"Error forwarding HTTP request to {selected_server}: {e}")
             return web.Response(status=502, text="Bad Gateway")
-
+        finally:
+            if hasattr(self.algorithm_context.algorithm, "release_server"):
+                await self.algorithm_context.algorithm.release_server(selected_server)
 
     async def start_http_server(self):
         """Initialize and start the HTTP server."""
@@ -95,7 +96,6 @@ class LoadBalancer:
         await site.start()
         self.logger.info(f"HTTP server listening on {self.config.listen.host}:{self.config.listen.port}")
 
-
     async def handle_tcp_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
         """
         Handle incoming TCP connections by forwarding data to a healthy server.
@@ -107,7 +107,7 @@ class LoadBalancer:
             await writer.wait_closed()
             return
 
-        selected_server = self.algorithm_context.execute(server_list=healthy_servers)
+        selected_server = await self.algorithm_context.execute(server_list=healthy_servers)
         self.logger.info(f"Forwarding TCP connection to: {selected_server['host']}:{selected_server['port']}")
 
         try:
@@ -138,7 +138,9 @@ class LoadBalancer:
             self.logger.error(f"Error forwarding TCP connection to {selected_server}: {e}")
             writer.close()
             await writer.wait_closed()
-
+        finally:
+            if hasattr(self.algorithm_context.algorithm, "release_server"):
+                await self.algorithm_context.algorithm.release_server(selected_server)
 
     async def start_tcp_server(self):
         """Initialize and start the TCP server."""

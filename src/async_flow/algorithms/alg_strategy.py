@@ -17,13 +17,16 @@ class AlgorithmContext:
     def algorithm(self, algorithm):
         self._algorithm = algorithm
 
-    def execute(self, server_list):
-        return self._algorithm.select_server(server_list)
+    async def execute(self, server_list):
+        return self.algorithm.select_server(server_list)
+
+    async def release(self, server):
+        if hasattr(self.algorithm, "release_server"):
+            await self.algorithm.release_server(server)
 
 
 class AlgorithmFactory:
     def build(self, algorithm_type: str) -> BaseAlgorithm:
-        print(algorithm_type)
         match algorithm_type:
             case AlgorithmType.ROUND_ROBIN.value:
                 return RoundRobinAlg()
