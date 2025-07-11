@@ -1,11 +1,12 @@
 import asyncio
 
-from async_flow.logger import get_logger
+from src.async_flow.logger import get_logger
 
-from async_flow.models.config import Server
+from src.async_flow.models.config import Server
+from src.async_flow.protocol_health_check.base import HealthCheckStrategy
 
 
-class TcpHealthCheckStrategy:
+class TcpHealthCheckStrategy(HealthCheckStrategy):
     def __init__(self, timeout: int):
         self.timeout = timeout
         self.logger = get_logger(self.__class__.__name__)

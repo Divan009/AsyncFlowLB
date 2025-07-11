@@ -6,9 +6,9 @@ import aiohttp
 
 from src.async_flow.enums import ProtocolType
 from src.async_flow.models.config import HealthCheck as HealthCheckConfig
-from src.async_flow.protocols.base import ProtocolStrategy
-from src.async_flow.protocols.http import HttpHealthCheckStrategy
-from src.async_flow.protocols.tcp import TcpHealthCheckStrategy
+from src.async_flow.protocol_health_check.base import ProtocolStrategy
+from src.async_flow.protocol_health_check.http import HttpHealthCheckStrategy
+from src.async_flow.protocol_health_check.tcp import TcpHealthCheckStrategy
 
 from src.async_flow.server_pool import ServerPool
 

@@ -1,12 +1,12 @@
 import aiohttp
 import asyncio
 
-from async_flow.logger import get_logger
-from async_flow.models.config import HealthCheck, Server
-from async_flow.protocols.base import ProtocolStrategy
+from src.async_flow.logger import get_logger
+from src.async_flow.models.config import Server
+from src.async_flow.protocol_health_check.base import HealthCheckStrategy
 
 
-class HttpHealthCheckStrategy:
+class HttpHealthCheckStrategy(HealthCheckStrategy):
     def __init__(self, session: aiohttp.ClientSession, timeout: int, health_check_path: str):
         self.session = session
         self.timeout = timeout

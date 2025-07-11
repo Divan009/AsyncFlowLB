@@ -1,5 +1,12 @@
-class BaseAlgorithm:
-    def select_server(self, server_list):
+from abc import ABC, abstractmethod
+from typing import List
+
+from src.async_flow.models.config import Server
+
+
+class BaseAlgorithm(ABC):
+    @abstractmethod
+    async def select_server(self, server_list: List[Server]) -> Server:
 
         """
         :param server_list: List of available servers.
