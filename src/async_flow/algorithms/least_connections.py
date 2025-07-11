@@ -1,4 +1,5 @@
 import asyncio
+import random
 from typing import Dict, List
 
 from src.async_flow.algorithms.base_algorithm import BaseAlgorithm
@@ -18,6 +19,7 @@ class LeastConnectionsAlg(BaseAlgorithm):
             raise ValueError("No servers available to select.")
 
         async with self._lock:
+            # Ensure every live server has a counter
             for server in server_list:
                 self._open_conn.setdefault(server, 0)
 
@@ -26,12 +28,23 @@ class LeastConnectionsAlg(BaseAlgorithm):
             for s in stale:
                 self._open_conn.pop(s, None)
 
+            # need it to be random
+            random.shuffle(server_list)
             chosen = min(server_list, key=self._open_conn.get)
+
+            # request goes to this
             self._open_conn[chosen] += 1
             return chosen
 
     async def release_server(self, server: Server) -> None:
         async with self._lock:
-            # Silently ignore unknown servers
-            if server in self._open_conn and self._open_conn[server] > 0:
-                self._open_conn[server] -= 1
+            if server not in self._open_conn:
+                # log this bcz why do we have unknown server - warning?
+                return
+
+            if self._open_conn[server] == 0:
+                # double-release
+                # log at WARNING?
+                return
+
+            self._open_conn[server] -= 1
