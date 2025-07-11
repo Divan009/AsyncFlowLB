@@ -18,9 +18,8 @@ class LeastConnectionsAlg(BaseAlgorithm):
             raise ValueError("No servers available to select.")
 
         async with self._lock:
-            if not self._open_conn:
-                for server in server_list:
-                    self._open_conn.setdefault(server, 0)
+            for server in server_list:
+                self._open_conn.setdefault(server, 0)
 
             # Remove stale entries (servers that disappeared from the pool)
             stale = set(self._open_conn) - set(server_list)
