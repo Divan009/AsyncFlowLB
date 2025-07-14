@@ -18,7 +18,7 @@ class AlgorithmContext:
         self._algorithm = algorithm
 
     async def execute(self, server_list):
-        return self.algorithm.select_server(server_list)
+        return await self.algorithm.select_server(server_list)
 
     async def release(self, server):
         if hasattr(self.algorithm, "release_server"):
